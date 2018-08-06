@@ -81,8 +81,7 @@ const imageToBlob = function (editor: Editor, img: HTMLImageElement) {
     src += (src.indexOf('?') === -1 ? '?' : '&') + 'url=' + encodeURIComponent(img.src);
     if (editor.settings.imagetools_proxy_headers) {
       return Proxy.getUrlWithHeaders(src, false, editor.settings.imagetools_proxy_headers);
-    }
-    else {
+    } else {
       apiKey = Settings.getApiKey(editor);
       return Proxy.getUrl(src, apiKey, false);
     }

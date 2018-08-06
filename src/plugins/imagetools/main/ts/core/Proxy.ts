@@ -37,7 +37,7 @@ const requestServiceBlob = function (url: string, apiKey: string) {
   });
 };
 
-function requestBlob(url: string, withCredentials: boolean, headers: object) {
+function requestBlob(url: string, withCredentials: boolean, headers: any) {
   return Utils.requestUrlAsBlob(url, headers, withCredentials)
     .then(function (result) {
       return result.status < 200 || result.status >= 300 ? Errors.handleHttpError(result.status) : Promise.resolve(result.blob);
@@ -45,10 +45,10 @@ function requestBlob(url: string, withCredentials: boolean, headers: object) {
 }
 
 const getUrl = function (url: string, apiKey: string, withCredentials: boolean): Promise<Blob> {
-  return apiKey ? requestServiceBlob(url, apiKey) : requestBlob(url, withCredentials);
+  return apiKey ? requestServiceBlob(url, apiKey) : requestBlob(url, withCredentials, null);
 };
 
-const getUrlWithHeaders = function (url: string, withCredentials: boolean, headers: object): Promise<Blob> {
+const getUrlWithHeaders = function (url: string, withCredentials: boolean, headers: any): Promise<Blob> {
   return requestBlob(url, withCredentials, headers);
 };
 
