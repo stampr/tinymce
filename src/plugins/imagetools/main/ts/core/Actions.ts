@@ -79,8 +79,13 @@ const imageToBlob = function (editor: Editor, img: HTMLImageElement) {
   if (!isLocalImage(editor, img)) {
     src = Settings.getProxyUrl(editor);
     src += (src.indexOf('?') === -1 ? '?' : '&') + 'url=' + encodeURIComponent(img.src);
-    apiKey = Settings.getApiKey(editor);
-    return Proxy.getUrl(src, apiKey, false);
+    if (editor.settings.imagetools_proxy_headers) {
+      return Proxy.getUrlWithHeaders(src, false, editor.settings.imagetools_proxy_headers);
+    }
+    else {
+      apiKey = Settings.getApiKey(editor);
+      return Proxy.getUrl(src, apiKey, false);
+    }
   }
 
   return BlobConversions.imageToBlob(img);
