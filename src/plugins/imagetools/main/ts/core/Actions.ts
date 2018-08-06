@@ -71,6 +71,7 @@ const isCorsWithCredentialsImage = function (editor, img) {
 
 const imageToBlob = function (editor: Editor, img: HTMLImageElement) {
   let src = img.src, apiKey;
+  const { imagetools_proxy_headers = null } = editor.settings;
 
   if (isCorsImage(editor, img)) {
     return Proxy.getUrl(img.src, null, isCorsWithCredentialsImage(editor, img));
@@ -79,8 +80,8 @@ const imageToBlob = function (editor: Editor, img: HTMLImageElement) {
   if (!isLocalImage(editor, img)) {
     src = Settings.getProxyUrl(editor);
     src += (src.indexOf('?') === -1 ? '?' : '&') + 'url=' + encodeURIComponent(img.src);
-    if (editor.settings.imagetools_proxy_headers) {
-      return Proxy.getUrlWithHeaders(src, false, editor.settings.imagetools_proxy_headers);
+    if (imagetools_proxy_headers) {
+      return Proxy.getUrlWithHeaders(src, false, imagetools_proxy_headers);
     } else {
       apiKey = Settings.getApiKey(editor);
       return Proxy.getUrl(src, apiKey, false);
